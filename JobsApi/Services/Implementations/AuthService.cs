@@ -11,9 +11,9 @@ namespace JobsApi.Services.Implementations
 
         public async Task<User> Login(LoginViewModel userViewModel)
         {
-            // Assuming userViewModel includes necessary fields like username and password
-            User user = await _context.Users.Include(x=>x.Role)
-                                      .FirstOrDefaultAsync(u => u.UserName == userViewModel.UserName);
+           // Assuming userViewModel includes necessary fields like username and password
+           User user = await _context.Users.Include(x => x.Role)
+                                     .FirstOrDefaultAsync(u => u.Name == userViewModel.UserName);
 
             if (user != null && VerifyPassword(userViewModel.Password, user.Password))
             {

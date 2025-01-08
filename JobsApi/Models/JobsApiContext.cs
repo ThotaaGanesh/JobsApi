@@ -15,6 +15,8 @@ public partial class JobsApiContext : DbContext
     {
     }
 
+    public virtual DbSet<Job> Jobs { get; set; }
+
     public virtual DbSet<Product> Products { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
@@ -27,6 +29,30 @@ public partial class JobsApiContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Job>(entity =>
+        {
+            entity.ToTable("Job");
+
+            entity.Property(e => e.CompanyName)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+            entity.Property(e => e.Description)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+            entity.Property(e => e.JobName)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+            entity.Property(e => e.Location)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+            entity.Property(e => e.Qualification)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.Salary)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<Product>(entity =>
         {
             entity.HasKey(e => e.ProductId).HasName("PK__Products__B40CC6CD92C7E370");
@@ -54,16 +80,27 @@ public partial class JobsApiContext : DbContext
         {
             entity.ToTable("User");
 
-            entity.Property(e => e.Password)
+            entity.Property(e => e.EmailId)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.UserName)
+            entity.Property(e => e.Name)
                 .HasMaxLength(500)
+                .IsUnicode(false);
+            entity.Property(e => e.OrganisationName)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+            entity.Property(e => e.Password)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+            entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Qualification)
+                .HasMaxLength(100)
                 .IsUnicode(false);
 
             entity.HasOne(d => d.Role).WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_User_Role");
         });
 

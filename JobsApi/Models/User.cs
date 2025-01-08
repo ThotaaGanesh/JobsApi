@@ -5,13 +5,21 @@ namespace JobsApi.Models;
 
 public partial class User
 {
-    public int UserId { get; set; }
+    public int Id { get; set; }
 
-    public string UserName { get; set; } = null!;
+    public string Name { get; set; } = null!;
+
+    public string PhoneNumber { get; set; } = null!;
+
+    public string EmailId { get; set; } = null!;
 
     public string Password { get; set; } = null!;
 
-    public int RoleId { get; set; }
+    public int? RoleId { get; set; }
 
-    public virtual Role Role { get; set; } = null!;
+    public string? OrganisationName { get; set; }
+
+    public string? Qualification { get; set; }
+
+    public virtual Role? Role { get; set; }
 }

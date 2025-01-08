@@ -76,7 +76,7 @@ namespace JobsApi.Controllers
             return Ok();
         }
 
-        private AuthResultViewModel GenerateJwtToken(User auth)
+        private AuthResultViewModel GenerateJwtToken(User user)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.JwtConfig.Secret);
@@ -85,9 +85,9 @@ namespace JobsApi.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.Aud, _appSettings.JwtConfig.ValidAudience),
                 new Claim(JwtRegisteredClaimNames.Iss, _appSettings.JwtConfig.ValidIssuer),
-                new Claim(JwtRegisteredClaimNames.Sub, auth.UserId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Role, auth.Role.RoleName.ToString())
+                new Claim(ClaimTypes.Role, user.Role.RoleName.ToString())
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -104,8 +104,8 @@ namespace JobsApi.Controllers
             {
                 token = jwtToken,
                 Success = true,
-                username = auth.UserName,
-                role = auth.Role.RoleName
+                username = user.Name,
+                role = user.Role.RoleName
             };
         }
 
