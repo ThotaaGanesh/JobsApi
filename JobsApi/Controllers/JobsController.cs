@@ -22,6 +22,37 @@ namespace JobsApi.Controllers
             return await _context.Jobs.ToListAsync();
         }
 
+        // GET: api/jobs/organisation/5
+        [HttpGet("organisation/{orgId}")]
+        public async Task<IActionResult> GetJobsByOrganization(int orgId)
+        {
+            if (orgId <= 0)
+            {
+                return BadRequest("Invalid organization ID provided.");
+            }
+
+            List<Job> jobs;
+            try
+            {
+                jobs = await _context.Jobs
+                                         .Where(job => job.UserId == orgId || job.UserId==5)
+                                         .ToListAsync();
+
+                if (jobs.Count == 0)
+                {
+                    return NotFound($"No jobs found for the organization ID: {orgId}");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                // Implement logging as necessary
+                return StatusCode(500, "A problem occurred while handling your request.");
+            }
+
+            return Ok(jobs);  // Return HTTP 200 with the list of jobs DTOs
+        }
+
         // GET: api/Jobs/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Job>> GetJob(int id)

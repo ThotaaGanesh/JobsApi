@@ -18,4 +18,12 @@ public partial class Job
     public string Salary { get; set; } = null!;
 
     public string Location { get; set; } = null!;
+
+    public string ContactPerson { get; set; } = null!;
+
+    public string PhoneNumber { get; set; } = null!;
+
+    public DateTime LastUpdatedTime { get; set; }
+
+    public int UserId { get; set; }
 }

@@ -21,6 +21,8 @@ public partial class JobsApiContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
+    public virtual DbSet<Subscribe> Subscribes { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -36,14 +38,23 @@ public partial class JobsApiContext : DbContext
             entity.Property(e => e.CompanyName)
                 .HasMaxLength(500)
                 .IsUnicode(false);
+            entity.Property(e => e.ContactPerson)
+                .HasMaxLength(500)
+                .IsUnicode(false);
             entity.Property(e => e.Description)
                 .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.JobName)
                 .HasMaxLength(500)
                 .IsUnicode(false);
+            entity.Property(e => e.LastUpdatedTime)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.Location)
                 .HasMaxLength(500)
+                .IsUnicode(false);
+            entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.Qualification)
                 .HasMaxLength(100)
@@ -76,6 +87,26 @@ public partial class JobsApiContext : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<Subscribe>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_Subscription");
+
+            entity.ToTable("Subscribe");
+
+            entity.Property(e => e.Name)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+            entity.Property(e => e.Qualification)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.SendTo)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.SubscriptionType)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
             entity.ToTable("User");
@@ -83,6 +114,9 @@ public partial class JobsApiContext : DbContext
             entity.Property(e => e.EmailId)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+            entity.Property(e => e.LastUpdatedTime)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.Name)
                 .HasMaxLength(500)
                 .IsUnicode(false);

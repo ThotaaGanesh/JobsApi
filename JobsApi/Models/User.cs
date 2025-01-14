@@ -21,5 +21,7 @@ public partial class User
 
     public string? Qualification { get; set; }
 
+    public DateTime LastUpdatedTime { get; set; }
+
     public virtual Role? Role { get; set; }
 }

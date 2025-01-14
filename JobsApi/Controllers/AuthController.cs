@@ -105,6 +105,8 @@ namespace JobsApi.Controllers
                 token = jwtToken,
                 Success = true,
                 username = user.Name,
+                userId = user.Id,
+                organisationName = user.OrganisationName,
                 role = user.Role.RoleName
             };
         }
