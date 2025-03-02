@@ -21,6 +21,8 @@ public partial class JobsApiContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
+    public virtual DbSet<SendNotification> SendNotifications { get; set; }
+
     public virtual DbSet<Subscribe> Subscribes { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -87,6 +89,13 @@ public partial class JobsApiContext : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<SendNotification>(entity =>
+        {
+            entity.Property(e => e.Type)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<Subscribe>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK_Subscription");
@@ -142,4 +151,6 @@ public partial class JobsApiContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+
 }
